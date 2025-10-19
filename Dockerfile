@@ -37,7 +37,7 @@ RUN --mount=type=secret,id=downloads_url,env=SECRET_DOWNLOADS_URL \
       "postgresql-client-13.22.0-0-linux-${OS_ARCH}-debian-12" \
       "mysql-client-12.0.2-0-linux-${OS_ARCH}-debian-12" \
       "libphp-8.2.29-6-linux-${OS_ARCH}-debian-12" \
-      "moodle-5.1.0-0-linux-${OS_ARCH}-debian-12" \
+      # "moodle-5.1.0-0-linux-${OS_ARCH}-debian-12" \
     ) ; \
     for COMPONENT in "${COMPONENTS[@]}"; do \
       if [ ! -f "${COMPONENT}.tar.gz" ]; then \
