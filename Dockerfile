@@ -37,7 +37,7 @@ RUN --mount=type=secret,id=downloads_url,env=SECRET_DOWNLOADS_URL \
       "postgresql-client-13.22.0-0-linux-${OS_ARCH}-debian-12" \
       "mysql-client-12.0.2-0-linux-${OS_ARCH}-debian-12" \
       "libphp-8.2.29-6-linux-${OS_ARCH}-debian-12" \
-      "moodle-5.1.0-0-linux-${OS_ARCH}-debian-12" \
+      # "moodle-5.1.0-0-linux-${OS_ARCH}-debian-12" \
     ) ; \
     for COMPONENT in "${COMPONENTS[@]}"; do \
       if [ ! -f "${COMPONENT}.tar.gz" ]; then \
@@ -47,13 +47,13 @@ RUN --mount=type=secret,id=downloads_url,env=SECRET_DOWNLOADS_URL \
       sha256sum -c "${COMPONENT}.tar.gz.sha256" ; \
       tar -zxf "${COMPONENT}.tar.gz" -C /opt/bitnami --strip-components=2 --no-same-owner ; \
       rm -rf "${COMPONENT}".tar.gz{,.sha256} ; \
-    done  
-    # # ---- Fetch & unpack upstream Moodle (instead of Bitnami's prepack) ----
-    # && curl -fsSL "$MOODLE_URL" -o /tmp/moodle.tgz \
-    # && tar -zxf /tmp/moodle.tgz -C /opt/bitnami \
-    # && rm -f /tmp/moodle.tgz \
-    # # Ensure expected path is /opt/bitnami/moodle (upstream tgz extracts to .../moodle/)
-    # && test -d /opt/bitnami/moodle
+    done  \  
+    # ---- Fetch & unpack upstream Moodle (instead of Bitnami's prepack) ----
+    && curl -fsSL "$MOODLE_URL" -o /tmp/moodle.tgz \
+    && tar -zxf /tmp/moodle.tgz -C /opt/bitnami \
+    && rm -f /tmp/moodle.tgz \
+    # Ensure expected path is /opt/bitnami/moodle (upstream tgz extracts to .../moodle/)
+    && test -d /opt/bitnami/moodle
 
 RUN apt-get update && apt-get upgrade -y && \
     apt-get clean && rm -rf /var/lib/apt/lists /var/cache/apt/archives
